@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<style>
+	.fDialog{
+		background: rgba(0,0,0,0.5);
+		position: fixed;
+		top:0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.fDialog-wrapper{
+		background: white;
+		padding: 20px;
+		min-width: 200px;
+	}
+
+	.fDialog-header{
+		font-size: 30px;
+		border-bottom: 1px solid;
+	}
+	.fDialog-main{
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.fDialog-footer{
+		text-align: right;
+	}
+	.fDialog-footer button{
+		margin-left: 10px;
+	}
+
+	/*-----*/
+
+	.userDialog{
+		z-index: 100;
+	}
+</style>
+<body>
+	<div>
+		<button id="xxx">点击</button>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+	<script>
+		class Dialog{
+		  constructor(options){
+		    this.options = options
+			  this.init()
+		  }
+		  get template(){
+		    let { title, content } = this.options
+			  return `
+				<div class="fDialog">
+			    <div class="fDialog-wrapper">
+						<header class="fDialog-header">${title}</header>
+						<main class="fDialog-main">${content}</main>
+						<footer class="fDialog-footer"></footer>
+					</div>
+				</div>
+			  `
+		  }
+      generateButtons(){
+        let {buttons} = this.options
+	      buttons = buttons.map((btnOpt)=>{
+          let $b = $('<button></button>')
+		      $b.text(btnOpt.text)
+		      $b.on('click', btnOpt.action)
+		      return $b
+	      })
+	      return buttons
+       }
+		  init() {
+        var $dialog = $(this.template)
+        $dialog.find('footer').append(this.generateButtons())
+			  $dialog.addClass(this.options.className)
+			  this.$dialog = $dialog
+		  }
+      open() {
+        this.$dialog.appendTo('body')
+      }
+      close() {
+        this.$dialog.detach()
+      }
+		}
+		xxx.onclick = ()=>{
+		  var dialog = new Dialog({
+				title:'标题',
+			  content:'内容',
+			  className:'userDialog',
+			  buttons:[
+			    {
+					  text:'确定',
+					  action: ()=>{
+					    setTimeout(() => {
+					      dialog.close()
+					    },2000)
+					  }
+				  },
+          {
+            text:'关闭',
+            action: ()=>{
+                dialog.close()
+            }
+          }
+			  ]
+		  })
+      dialog.open()
+		}
+	</script>
+</body>
+</html>
