@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<title>Tabs</title>
+</head>
+<style>
+	*{
+		margin: 0;padding: 0;
+	}
+	.tabs-wrapper{
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		padding: 5px;
+		margin: 20px ;
+	}
+	ol{
+		list-style: none;
+	}
+
+	.tabs{
+		display: flex;
+	}
+
+	.tabs > li{
+		padding: 5px 10px ;
+		border: 1px solid black;
+	}
+
+	.tabs > li.active{
+		padding: 5px 10px ;
+		border: 1px solid black;
+		background: #666;
+	}
+
+	.tabs-content>li {
+		display: none;
+	}
+
+	.tabs-content > li.active {
+		border: 1px solid black;
+		padding: 10px;
+		display: block;
+	}
+</style>
+<body>
+<div class="tabs-wrapper">
+	<ol class="tabs">
+		<li>tab1</li>
+		<li>tab2</li>
+		<li>tab3</li>
+	</ol>
+	<ol class="tabs-content">
+		<li>content1</li>
+		<li>content2</li>
+		<li>content3</li>
+	</ol>
+</div>
+
+<div class="tabs-wrapper">
+	<ol class="tabs">
+		<li >tab1</li>
+		<li>tab2</li>
+		<li>tab3</li>
+	</ol>
+	<ol class="tabs-content">
+		<li>content1</li>
+		<li>content2</li>
+		<li>content3</li>
+	</ol>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script>
+  // function Tabs(selector){
+  //   this.elements = $(selector)
+  //   this.init()
+  //   this.bindEvents()
+  // }
+
+  // Tabs.prototype.init = function(){
+  //    this.elements.each(function(index, element) {
+  //     $(element).children('.tabs').children('li').eq(0).addClass('active')
+  //     $(element).children('.tabs-content').children('li').eq(0).addClass('active')
+  //   })
+  // }
+  // Tabs.prototype.bindEvents = function(){
+  //    this.elements.on('click','.tabs > li', (e)=>{
+  //    var $li = $(e.currentTarget)
+  //    $li.addClass('active').siblings().removeClass('active')
+  //    var index = $li.index()
+  //    var $contnet = $li.closest('.tabs-wrapper').find('.tabs-content > li').eq(index)
+  //    $contnet.addClass('active').siblings().removeClass('active')
+  //   })
+  // }
+
+  class Tabs{
+    constructor(selector){
+      this.elements = $(selector)
+      this.init()
+      this.bindEvents()
+    }
+    init(){
+      this.elements.each(function(index, element) {
+        $(element).children('.tabs').children('li').eq(0).addClass('active')
+        $(element).children('.tabs-content').children('li').eq(0).addClass('active')
+      })
+    }
+    bindEvents(){
+      this.elements.on('click','.tabs > li', (e)=>{
+        var $li = $(e.currentTarget)
+        $li.addClass('active').siblings().removeClass('active')
+        var index = $li.index()
+        var $contnet = $li.closest('.tabs-wrapper').find('.tabs-content > li').eq(index)
+        $contnet.addClass('active').siblings().removeClass('active')
+      })
+    }
+  }
+
+  var tabs =  new Tabs('.tabs-wrapper')
+</script>
+</body>
+</html>
